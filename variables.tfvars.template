@@ -1,40 +1,32 @@
-subscription 			= ""
+subscription 			= "subscription id - run 'az account list'"
 
-aro_name 			= ""
-aro_vnet_resource_group_name	= ""
-aro_location 			= ""
+aro_name 			    = "cluster"
+aro_vnet_resource_group_name	= "aro-rg"
+aro_location 			= "eastus"
 
-aro_client_name			= ""
-aro_client_id			= ""
-aro_client_object_id		= ""
-aro_client_secret		= ""
-
-aro_api_server_visibility	= "Public"
-aro_ingress_visibility		= "Public"
 
 tags 				= {
-    Environment = "Production"
+    Environment = "Dev"
     Platform = "ARO"
 }
 
-aro_worker_node_size 		= "Standard_E4s_v3"
-aro_worker_node_count 		= 4
+aro_client_id           = "Service Principal appID - to create run 'az ad sp create-for-rbac --skip-assignment --name aro-sp'""
+aro_client_secret       = "Service Principal password
 
-aro_vnet_name			= ""
-aro_vnet_cidr			= ""
-aro_master_subnet_name		= ""
-aro_master_subnet_cidr		= ""
-aro_worker_subnet_name		= ""
-aro_worker_subnet_cidr		= ""
 
-roles = [
-  {
-    role = "Contributor"
-  },
-  {
-    role = "User Access Administrator"
-  }
-]
+aro_vnet_name               = "aro-vnet"
+aro_vnet_cidr               = "10.0.0.0/22"
+aro_master_subnet_name      = "master-subnet"
+aro_master_subnet_cidr      = "10.0.0.0/23"
+aro_worker_subnet_name      = "worker-subnet"
+aro_worker_subnet_cidr      = "10.0.2.0/23"
 
-akv_name			= ""
-akv_resource_group_name		= ""
+aro_api_server_visibility   = "Public"
+aro_ingress_visibility      = "Public"
+
+aro_worker_node_size        = "Standard_D4s_v3"
+aro_worker_node_count       = 3
+
+akv_name            = "aro-keyvault"
+akv_key_name        = "pull-secret"
+akv_key_value       = "Pull secret - remember to escape double quotes, e.g.: {\"auths\":..."
