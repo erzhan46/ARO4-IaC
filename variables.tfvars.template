@@ -10,8 +10,16 @@ tags 				= {
     Platform = "ARO"
 }
 
-aro_client_id           = "Service Principal appID - to create run 'az ad sp create-for-rbac --skip-assignment --name aro-sp'""
-aro_client_secret       = "Service Principal password
+aro_sp_app_id           = "Service Principal appID - to create run 'az ad sp create-for-rbac --role Contributor --name aro-sp'""
+aro_sp_password         = "Service Principal password
+aro_sp_object_id        = "Object id - run to get: az ad sp list --filter "displayname eq 'aro-sp'" --query "[?appDisplayName=='aro-sp'].{name: appDisplayName, objectId: objectId}""
+aro_rp_object_id        = "Resource provider object id - run to get: az ad sp list --filter "displayname eq 'Azure Red Hat OpenShift RP'" --query "[?appDisplayName=='Azure Red Hat OpenShift RP'].{name: appDisplayName, objectId: objectId}""
+
+roles = [
+  {
+    role = "Contributor"
+  }
+]
 
 
 aro_vnet_name               = "aro-vnet"

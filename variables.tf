@@ -21,12 +21,20 @@ variable "tags" {
 }
 
 
-variable "aro_client_id" {
-  description       = "The Application ID used by the Azure Red Hat OpenShift"
+variable "aro_sp_app_id" {
+  description       = "The Service Provider App ID used by the Azure Red Hat OpenShift"
 }
 
-variable "aro_client_secret" {
-  description       = "The Application Secret used by the Azure Red Hat OpenShift"
+variable "aro_sp_password" {
+  description       = "The Service Provider Password used by the Azure Red Hat OpenShift"
+}
+
+variable "aro_sp_object_id" {
+  description       = "The Service Provider Object ID used by the Azure Red Hat OpenShift"
+}
+
+variable "aro_rp_object_id" {
+  description       = "The Resource Provider Object ID used by the Azure Red Hat OpenShift"
 }
 
 
@@ -101,6 +109,11 @@ variable "akv_key_value" {
   description       = "Azure Key Value holding the pull-secret for Cluster Manager"
 }
 
+variable "roles" {
+  description       = "Roles to be assigned to the Principal"
+  type          = list(object({ role = string}))
+  default       = []
+}
 
 
 

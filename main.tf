@@ -81,6 +81,21 @@ resource "azurerm_subnet" "aro_worker_subnet" {
 }
 
 
+resource "azurerm_role_assignment" "vnet_assignment" {
+  count         = length(var.roles)
+  scope         = azurerm_virtual_network.aro_vnet.id
+  role_definition_name  = var.roles[count.index].role
+  principal_id      = var.aro_sp_object_id
+}
+
+resource "azurerm_role_assignment" "rp_assignment" {
+  count         = length(var.roles)
+  scope         = azurerm_virtual_network.aro_vnet.id
+  role_definition_name  = var.roles[count.index].role
+  principal_id      = var.aro_rp_object_id
+}
+
+
 resource "azurerm_template_deployment" "azure-arocluster" {
   name          = var.aro_name
   resource_group_name   = var.aro_vnet_resource_group_name
@@ -97,8 +112,8 @@ resource "azurerm_template_deployment" "azure-arocluster" {
     apiServerVisibility     = var.aro_api_server_visibility
     ingressVisibility       = var.aro_ingress_visibility
 
-    aadClientId         = var.aro_client_id
-    aadClientSecret     = var.aro_client_secret
+    aadClientId         = var.aro_sp_app_id
+    aadClientSecret     = var.aro_sp_password
 
     clusterVnetId       = azurerm_virtual_network.aro_vnet.id
     workerSubnetId      = azurerm_subnet.aro_worker_subnet.id
@@ -116,5 +131,11 @@ resource "azurerm_template_deployment" "azure-arocluster" {
     create = "90m"
   }
 
+  depends_on        = [
+    azurerm_role_assignment.vnet_assignment,
+    azurerm_role_assignment.rp_assignment
+  ]
+
 }
+
 
